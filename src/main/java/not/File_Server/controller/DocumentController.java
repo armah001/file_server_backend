@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.Doc;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -41,6 +42,12 @@ public class DocumentController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
             }
         }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<Document>> getAllFiles() {
+        List<Document> files = fileRepository.findAll();
+        return ResponseEntity.ok(files);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getFile(@PathVariable("id") Long fileId) {
