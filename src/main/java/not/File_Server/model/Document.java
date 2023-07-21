@@ -1,33 +1,38 @@
 package not.File_Server.model;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "documents")
 public class Document {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
 
-        @Column(nullable = false)
-        private String filename;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        @Column(nullable = false)
-        private String fileType;
+    @Column(nullable = false)
+    private String filename;
 
-        @Lob
-        @Column(nullable = false)
-        private byte[] data;
+    @Column(nullable = false)
+    private String fileType;
 
+    @Lob
+    @Column(nullable = false)
+    private byte[] data;
 
-        public Document() {
-            // Default constructor
-        }
+    @Column
+    private String description;
 
-    public Document(String filename, String fileType, byte[] data) {
+    public Document() {
+        // Default constructor
+    }
+
+    public Document(String filename, String fileType, byte[] data, String description) {
         this.filename = filename;
         this.fileType = fileType;
         this.data = data;
+        this.description = description;
     }
 
     // Getters and setters
@@ -64,6 +69,14 @@ public class Document {
         this.data = data;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public byte[] getFileData() {
         return data;
     }
@@ -72,5 +85,3 @@ public class Document {
         return filename;
     }
 }
-
-

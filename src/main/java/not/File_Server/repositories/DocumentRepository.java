@@ -7,7 +7,7 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long>{
         List<Document> findByFilename(String filename);
-        List<Document> findByFileType(String fileType);
+//        List<Document> findByFileType(String fileType);
 
 
 }

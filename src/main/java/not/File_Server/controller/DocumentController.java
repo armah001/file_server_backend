@@ -20,32 +20,35 @@ import java.util.Optional;
 @RequestMapping("api/v1/document")
 @AllArgsConstructor
 public class DocumentController {
+        private final DocumentRepository fileRepository;
 
-        @Autowired
-        private DocumentRepository fileRepository;
-
-        @PostMapping
-        public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-            try {
-                if (file.isEmpty()) {
-                    return ResponseEntity.badRequest().body("File is empty");
-                }
-
-                // Create an instance of your file model class
-                Document fileData = new Document(file.getOriginalFilename(), file.getContentType(), file.getBytes());
-
-                // Save the file data to the database
-                Document savedFile = fileRepository.save(fileData);
-
-                return ResponseEntity.ok("File uploaded successfully with ID: " + savedFile.getId());
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("description") String description) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("File is empty");
             }
+
+            // Create an instance of your file model class
+            Document fileData = new Document(file.getOriginalFilename(), file.getContentType(), file.getBytes(), description);
+
+            // Save the file data to the database
+            Document savedFile = fileRepository.save(fileData);
+
+            return ResponseEntity.ok("File uploaded successfully with ID: " + savedFile.getId());
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file");
         }
+    }
 
     @GetMapping("/get")
     public ResponseEntity<List<Document>> getAllFiles() {
+        System.err.println("hi");
         List<Document> files = fileRepository.findAll();
+        for (Document file: files) {
+            System.err.println(file.toString());
+        }
         return ResponseEntity.ok(files);
     }
 
@@ -57,7 +60,7 @@ public class DocumentController {
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
                     .contentType(MediaType.parseMediaType(file.getFileType()))
-                    .body(file.getFileData());
+                    .body(file.getData());
         } else {
             return ResponseEntity.notFound().build();
         }

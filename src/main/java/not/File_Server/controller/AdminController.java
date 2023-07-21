@@ -25,8 +25,8 @@ public class AdminController {
     private final AdminConvertor adminConvertor;
     private final JwtService jwtService;
 
-    private final DocumentRepository fileRepository;
-    private EmailLogRepository emailLogRepository;
+//    private final DocumentRepository fileRepository;
+//    private EmailLogRepository emailLogRepository;
 
     @PostMapping("/login")
     public ResponseEntity authenticate(@RequestBody AdminLogInDto request) {

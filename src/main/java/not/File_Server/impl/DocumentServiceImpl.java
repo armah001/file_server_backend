@@ -10,11 +10,15 @@ import java.util.List;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
-
         @Autowired
         private DocumentRepository fileRepository;
 
-        @Override
+
+//    public DocumentServiceImpl(DocumentRepository fileRepository) {
+//        this.fileRepository = fileRepository;
+//    }
+
+    @Override
         public void uploadFile(Document fileData) {
             fileRepository.save(fileData);
         }
