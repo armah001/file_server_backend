@@ -66,5 +66,24 @@ public class DocumentController {
         }
     }
 
+    @GetMapping("/document/download/{id}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable("id") Long id) {
+        System.out.println("download");
+        // Retrieve the file data from the database based on the file ID
+        Document fileData = fileRepository.findById(id).orElse(null);
+
+        // Check if the file data exists in the database
+        if (fileData == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Create a response entity with the file data and appropriate headers for download
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", fileData.getFilename());
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<>(fileData.getData(), headers, HttpStatus.OK);
     }
+
+
+}
 

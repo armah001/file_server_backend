@@ -38,7 +38,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .authorizeRequests().antMatchers("/v2/api-docs", "/configuration/**",
                         "/swagger*/**", "/webjars/**").permitAll()
                 .and().authorizeRequests().antMatchers("/api/v1/customer/signup","/api/v1/customer/login", "/api/v1/customer/auth",
-                        "/api/v1/admin/login", "/api/v1/admin/signup","/api/v1/document/get","/api/v1/document/upload").permitAll()
+                        "/api/v1/admin/login", "/api/v1/admin/signup","/api/v1/document/get","/api/v1/document/upload","/api/v1/document/download/{id}").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
